@@ -2,7 +2,7 @@
 
 This is a simple neural network architecture that uses 1 hidden layer with a configurable number of neurons.
 
-```
+```java
 //declare your inputs for a single example
 double[] inputs = {2.0,3.0,4.0,5.0,6.0};
 //declare your target outputs for a single example
