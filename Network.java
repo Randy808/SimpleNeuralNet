@@ -1,4 +1,8 @@
-class Network{
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Network implements Serializable{
 	double[] inputs;
 	HiddenNeuron[] hiddenNeurons;	
 	HiddenNeuron[] outputNeurons;
@@ -11,11 +15,27 @@ class Network{
 
 		this.inputs = inputs;
 		this.targets = targets;
-		//initializeWeights();
 		hiddenNeurons = new HiddenNeuron[hiddenNeuronCount];
 		outputNeurons = new HiddenNeuron[targets.length];
 		initializeHiddenNeurons();
 		initializeOutputNeurons();
+		this.learningRate = learningRate;
+	}
+	
+	void reinitialize(double[] inputs, double[] targets, double learningRate){
+
+		this.targets = targets;
+		if(inputs.length != this.inputs.length){ 
+			//when receiving new inputs, we should make sure the hidden neurons all have enough weights to accomadate
+			this.inputs = inputs;
+			initializeHiddenNeurons();
+			initializeOutputNeurons();
+		}
+		//change the inputs for the hidden neurons
+		for(int i = 0 ; i < hiddenNeurons.length ; i++){
+			hiddenNeurons[i].setInputs(inputs);
+		}
+
 		this.learningRate = learningRate;
 	}
 
@@ -116,6 +136,22 @@ class Network{
 		//finish
 		return;
 	}
+	
+	void saveNetworkToFile(String filename){
+		 try
+	        {
+	            FileOutputStream fos = new FileOutputStream(filename);
+	            ObjectOutputStream oos = new ObjectOutputStream(fos);
+	            oos.writeObject(this);
+	            oos.close();
+	            fos.close();
+	        }
+	        catch (Exception e)
+	        { 
+	            e.printStackTrace(); 
+	        }
+	}
+	
 
 
 }

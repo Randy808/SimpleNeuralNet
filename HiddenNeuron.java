@@ -1,7 +1,8 @@
 import java.util.Random;
+import java.io.Serializable;
 import java.lang.Math;
 
-public class HiddenNeuron{
+public class HiddenNeuron implements Serializable{
 	double[] inputs;
 	double[] inputWeights;
 	double error;
